@@ -58,7 +58,7 @@
         
         window.process = {
             env: {
-                API_KEY: AIzaSyD6Jpw1bAsalsGdlV1NfgkjuflDFWFkUs8
+                API_KEY: 'AIzaSyD6Jpw1bAsalsGdlV1NfgkjuflDFWFkUs8'
             }
         };
     </script>
@@ -303,7 +303,7 @@
             const apiKey = window.process?.env?.API_KEY;
             
             // Check if key is missing or still default
-            if (!apiKey || apiKey === AIzaSyD6Jpw1bAsalsGdlV1NfgkjuflDFWFkUs8 || apiKey === AIzaSyD6Jpw1bAsalsGdlV1NfgkjuflDFWFkUs8) {
+            if (!apiKey || apiKey === 'COLE_SUA_API_KEY_AQUI' || apiKey === 'YOUR_API_KEY_HERE') {
                 alert('ERRO: Você não configurou a API KEY no código!\n\n1. Abra o arquivo index.html.\n2. Procure por "COLE_SUA_API_KEY_AQUI".\n3. Cole sua chave da Google Gemini lá.');
                 return;
             }
