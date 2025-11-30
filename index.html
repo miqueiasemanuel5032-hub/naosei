@@ -52,13 +52,13 @@
     </script>
     <script>
         // --- CONFIGURAÇÃO DA API KEY ---
-        // IMPORTANTE: Para funcionar na Netlify em modo estático (HTML),
-        // você deve substituir o texto abaixo pela sua chave real da Google AI Studio.
-        // Exemplo: API_KEY: 'AIzaSyBr...'
+        // A chave anterior foi BLOQUEADA pelo Google por ter vazado publicamente.
+        // Você PRECISA gerar uma nova chave em https://aistudio.google.com/
+        // e colar ela abaixo, dentro das aspas.
         
         window.process = {
             env: {
-                API_KEY: 'AIzaSyD6Jpw1bAsalsGdlV1NfgkjuflDFWFkUs8'
+                API_KEY: 'AIzaSyBaF-7ICc-qJpAnylep6fZmmoB6eoNGFe4'
             }
         };
     </script>
@@ -303,8 +303,8 @@
             const apiKey = window.process?.env?.API_KEY;
             
             // Check if key is missing or still default
-            if (!apiKey || apiKey === 'COLE_SUA_API_KEY_AQUI' || apiKey === 'YOUR_API_KEY_HERE') {
-                alert('ERRO: Você não configurou a API KEY no código!\n\n1. Abra o arquivo index.html.\n2. Procure por "COLE_SUA_API_KEY_AQUI".\n3. Cole sua chave da Google Gemini lá.');
+            if (!apiKey || apiKey.includes('COLE_SUA_NOVA') || apiKey === 'YOUR_API_KEY_HERE') {
+                alert('⚠️ AVISO: Você precisa configurar sua API KEY!\n\n1. Abra o arquivo index.html.\n2. Procure por "COLE_SUA_NOVA_API_KEY_AQUI".\n3. Substitua pela sua nova chave da Google AI Studio.');
                 return;
             }
 
@@ -443,8 +443,16 @@
             } catch (error) {
                 console.error("Error generating content:", error);
                 
-                // Mensagem de erro mais detalhada para o usuário
-                alert(`Erro: ${error.message || "Falha desconhecida"}. \n\nVerifique se sua API KEY está correta no código.`);
+                // ERROR HANDLING
+                let errorMessage = `Erro: ${error.message || "Falha desconhecida"}.`;
+                
+                if (error.message.includes('leaked') || error.message.includes('403') || error.message.includes('PERMISSION_DENIED')) {
+                    errorMessage = "⛔ CHAVE API BLOQUEADA!\n\nO Google detectou que a chave API foi vazada publicamente e a bloqueou.\n\nSOLUÇÃO:\n1. Acesse https://aistudio.google.com/\n2. Crie uma NOVA chave API.\n3. Substitua no arquivo index.html onde diz 'COLE_SUA_NOVA_API_KEY_AQUI'.";
+                } else if (error.message.includes('API_KEY')) {
+                     errorMessage = "🔑 ERRO NA CHAVE API!\n\nVerifique se você colou a chave corretamente no arquivo index.html.";
+                }
+
+                alert(errorMessage);
                 
                 loadingSection.classList.add('hidden');
                 loadingSection.classList.remove('flex');
